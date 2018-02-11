@@ -1,0 +1,80 @@
+<html>
+  <head>
+  </head>
+<body>
+  <div class="wrapper">
+    <canvas id="display"></canvas>
+    <form action="">
+      <input type="text" id="text" value="0"><br>
+      <input type="text" id="color" pattern="#[A-Za-z-0-9]{6}" value="#ff0000" required><br>
+      <input type="range"  id="sizeId" min="6" max="400" step="1" value="20" 
+      oninput="sizeShow.value = sizeId.value" >
+      <output id="sizeShow">20</output>
+      <br>
+
+
+
+
+
+      <!-- <input type="text" id="font" value="Arial"><br> -->
+      <label>Font
+        <input list="font" name="font" id="myfont" value="Arial"/>
+      </label>
+      <datalist id="font">
+      <option value="American Typewriter">
+      <option value="Anka/Coder Narrow">
+      <option value="Arial">
+      <option value="Arkadia">
+      <option value="Chalk Marks">
+      <option value="Condensed">
+      <option value="Copperplate">
+      <option value="Coraline's Cat">
+      <option value="CQ Mono">
+      <option value="creep">
+      <option value="Didot">
+      <option value="Envy Code R VS">
+      <option value="Fifteen">
+      <option value="Futura">
+      <option value="GohuFont">
+      <option value="Haskling">
+      <option value="Heartbeat Synchronicity">
+      <option value="Herculanum">
+      <option value="Highliner">
+      <option value="Impact">
+      <option value="leco 1976">
+      <option value="LIGHT OF THE MERMAID">
+      <option value="Luculent">
+      <option value="Marker Felt">
+      <option value="Monoid">
+      <option value="Monoton">
+      <option value="Phosphate">
+      <option value="Quinze">
+      <option value="RoselleCapsSSK">
+      <option value="Russian Land">
+      <option value="Skia">
+      <option value="Skyhook Mono">
+      <option value="Tasty Birds">
+      <option value="The Flowers St">
+      <option value="Underwear Protest">
+      <option value="Yanone Kaffeesatz">
+      </datalist>
+
+
+
+      <input type="range"  id="threshold" min="1" max="255" step="1" value="110" 
+      oninput="tsShow.value = threshold.value" >
+      <output id="tsShow">110</output>
+      <br/>
+
+
+      <button id="plusBtn" type="button" >+</button>
+      <button id="cleanBtn" type="button" >Clean</button>
+    </form>
+    <div class="preview">
+
+    </div>
+
+  </div>
+  <script src="./index.ts"></script>
+</body>
+</html>

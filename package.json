@@ -1,0 +1,12 @@
+{
+  "name": "wFonts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel src/index.html"
+  },
+  "dependencies": {
+    "jszip": "^3.1.5"
+  }
+}
