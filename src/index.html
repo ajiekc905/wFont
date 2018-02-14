@@ -5,18 +5,23 @@
   <div class="wrapper">
     <canvas id="display"></canvas>
     <form action="">
-      <input type="text" id="text" value="0"><br>
-      <input type="text" id="color" pattern="#[A-Za-z-0-9]{6}" value="#ff0000" required><br>
+
+      <label>Text
+        <input list="myText" name="text" id="text" value="01234567890"/>
+      </label>
+      <datalist id="myText">
+      <option value="0 1 2 3 4 5 6 7 8 9 0 -">
+      <option value="MON TUE WEN THU FRI SAT SUN">
+      <option value="ПН ВТ СР ЧТ ПТ СБ ВС">
+      <option value="January February March April May June July August September October November December">
+      </datalist>
+
+      <input type="color" id="colorId" pattern="#[A-Za-z-0-9]{6}" value="#ff0000" required><br>
       <input type="range"  id="sizeId" min="6" max="400" step="1" value="20" 
       oninput="sizeShow.value = sizeId.value" >
       <output id="sizeShow">20</output>
       <br>
 
-
-
-
-
-      <!-- <input type="text" id="font" value="Arial"><br> -->
       <label>Font
         <input list="font" name="font" id="myfont" value="Arial"/>
       </label>
@@ -69,6 +74,9 @@
 
       <button id="plusBtn" type="button" >+</button>
       <button id="cleanBtn" type="button" >Clean</button>
+      <button id="saveBtn" type="button" >Save</button>
+      <button id="sizesBtn" type="button" >Size</button>
+
     </form>
     <div class="preview">
 

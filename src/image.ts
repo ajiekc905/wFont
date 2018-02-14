@@ -15,8 +15,9 @@ export class Image {
   cropX1: number
 
   // angle:
-  constructor(size: number = 10, text: string, font: string) {
+  constructor(size: number = 10, text: string, font: string, color: string) {
     // this.greeting = message;
+    this.color = color
     this.size = size
     this.text = text
     this.font = font
@@ -49,7 +50,8 @@ export class Image {
     let font = `${fontStyle} ${this.size}px "${this.font}"`
     this.ctx.font = font
   }
-  update(text: string, size: number, font: string, ts: number) {
+  update(text: string, size: number, font: string, ts: number, color?: string) {
+    let hex = (value: number) => ('0' + value.toString(16)).slice(-2)
     if (text) {
       this.text = text
     }
@@ -63,6 +65,19 @@ export class Image {
     }
     if (ts) {
       this.threshold = ts
+    }
+    if (color) {
+      let red = parseInt(color.slice(1, 3), 16)
+      let green = parseInt(color.slice(3, 5), 16)
+      let blue = parseInt(color.slice(5, 7), 16)
+      const _threshold = 0x50
+      red = red < _threshold ? 0 : 0xff
+      green = green < _threshold ? 0 : 0xff
+      blue = blue < _threshold ? 0 : 0xff
+      const hexColor = '#' + hex(red) + hex(green) + hex(blue)
+      // console.log(hexColor)
+      this.color = hexColor
+      // this.color = `rgb(${red},${green},${blue})`
     }
 
     this.width = Math.ceil(this.ctx.measureText(this.text).width)
@@ -120,12 +135,20 @@ export class Image {
   }
   draw() {
     this.ctx.clearRect(0, 0, this.width, this.height)
-    this.ctx.fillStyle = 'red'
+    // console.log(this.color)
+    this.ctx.fillStyle = this.color
     this.ctx.fillText(this.text, 0, this.size)
     this.bip()
     this.crop()
   }
-  getImage() {
+  getImageSizes() {
+    let width = this.width - this.cropX0 - this.cropX1
+    let height = this.cropY1 - this.cropY0 + 1
+    
+    return {width:width, height:height, cropy0:this.cropY0, cropy1:this.cropY1}
+
+  }
+  getImageSrc() {
     // let width = this.ctx.measureText(this.text).width - this.cropX0- (this.cropX1>>1)
     let width = this.width - this.cropX0 - this.cropX1
     let _canvas = document.createElement('canvas')
@@ -138,11 +161,11 @@ export class Image {
       0,
       0
     )
+    return  _canvas.toDataURL()
+  }
+  getImage() {
     let img = <HTMLImageElement>document.createElement('img')
-    img.src = _canvas.toDataURL()
-    // console.log(img.src)
-    // img.width = this.width
-    // img.height = this.height
+    img.src = this.getImageSrc()
     return img
   }
   getImageData() {

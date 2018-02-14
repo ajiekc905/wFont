@@ -10,6 +10,7 @@ canvas#display {
   border-width: thin;
 }
 input[type='text'],
+input[list='myText'],
 input[type='number'],
 input#myfont {
   width: 100%;
@@ -33,4 +34,9 @@ button {
 
 input[type='range'] {
   width: 90%;
+}
+input#colorId {
+  width: 100%;
+  border: none;
+  height: 48px;
 }
