@@ -6,8 +6,8 @@
     <canvas id="display"></canvas>
     <form action="">
 
-      <label>Text
-        <input list="myText" name="text" id="text" value="01234567890"/>
+      <label>Text <span id="font-height"></span>
+        <input list="myText" name="text" id="text" value="0 1 2 3 4 5 6 7 8 9 0 -"/>
       </label>
       <datalist id="myText">
       <option value="0 1 2 3 4 5 6 7 8 9 0 -">
@@ -17,19 +17,22 @@
       </datalist>
 
       <input type="color" id="colorId" pattern="#[A-Za-z-0-9]{6}" value="#ff0000" required><br>
-      <input type="range"  id="sizeId" min="6" max="400" step="1" value="20" 
+      <input type="range"  id="sizeId" min="6" max="400" step="1" value="160" 
       oninput="sizeShow.value = sizeId.value" >
-      <output id="sizeShow">20</output>
+      <output id="sizeShow">160</output>
       <br>
 
       <label>Font
-        <input list="font" name="font" id="myfont" value="Arial"/>
+        <input list="font" name="font" id="myfont" value="Merkur"/>
       </label>
       <datalist id="font">
       <option value="American Typewriter">
       <option value="Anka/Coder Narrow">
       <option value="Arial">
       <option value="Arkadia">
+      <option value="Bsica-Unicode">
+
+          
       <option value="Chalk Marks">
       <option value="Condensed">
       <option value="Copperplate">
@@ -40,6 +43,7 @@
       <option value="Envy Code R VS">
       <option value="Fifteen">
       <option value="Futura">
+      <option value="ZnikomitNo24">
       <option value="GohuFont">
       <option value="Haskling">
       <option value="Heartbeat Synchronicity">
@@ -47,6 +51,7 @@
       <option value="Highliner">
       <option value="Impact">
       <option value="leco 1976">
+      <option value="Ode to Idle Gaming">
       <option value="LIGHT OF THE MERMAID">
       <option value="Luculent">
       <option value="Marker Felt">
@@ -60,13 +65,14 @@
       <option value="Skyhook Mono">
       <option value="Tasty Birds">
       <option value="The Flowers St">
+      <option value="Qui Finn">
       <option value="Underwear Protest">
       <option value="Yanone Kaffeesatz">
       </datalist>
 
 
 
-      <input type="range"  id="threshold" min="1" max="255" step="1" value="110" 
+      <input type="range"  id="threshold" min="1" max="254" step="1" value="110" 
       oninput="tsShow.value = threshold.value" >
       <output id="tsShow">110</output>
       <br/>
@@ -75,7 +81,7 @@
       <button id="plusBtn" type="button" >+</button>
       <button id="cleanBtn" type="button" >Clean</button>
       <button id="saveBtn" type="button" >Save</button>
-      <button id="sizesBtn" type="button" >Size</button>
+      <!-- <button id="sizesBtn" type="button" >Size</button> -->
 
     </form>
     <div class="preview">

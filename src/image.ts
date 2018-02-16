@@ -15,12 +15,19 @@ export class Image {
   cropX1: number
 
   // angle:
-  constructor(size: number = 10, text: string, font: string, color: string) {
+  constructor(
+    text: string,
+    size: number = 10,
+    font: string,
+    color: string,
+    threshold: number = 220
+  ) {
     // this.greeting = message;
     this.color = color
     this.size = size
     this.text = text
     this.font = font
+    this.threshold = threshold
     this.canvas = document.createElement('canvas')
     this.setCanvasSize(size)
     this.draw()
@@ -50,7 +57,7 @@ export class Image {
     let font = `${fontStyle} ${this.size}px "${this.font}"`
     this.ctx.font = font
   }
-  update(text: string, size: number, font: string, ts: number, color?: string) {
+  update(text: string, size: number, font: string, color?: string, ts: number) {
     let hex = (value: number) => ('0' + value.toString(16)).slice(-2)
     if (text) {
       this.text = text
@@ -85,7 +92,7 @@ export class Image {
     this.draw()
   }
 
-  crop(): number {
+  crop(_y0?: number, _y1?: number): number {
     function checkImgLine(byte) {
       return byte === 0
     }
@@ -117,14 +124,14 @@ export class Image {
       y1 = y1 === undefined && !isEmpty ? y : y1
       y1 = y > y1 && !isEmpty ? y : y1
     }
-    this.cropY0 = y0
-    this.cropY1 = y1
+    this.cropY0 = _y0 === undefined ? y0 : _y0
+    this.cropY1 = _y1 === undefined ? y1 : _y1
     this.cropX0 = x0
     this.cropX1 = this.width - x1 - 1
     // console.log(`start: ${y0}, end:${y1}`)
     // console.log(`x0: ${x0}   x1: ${this.width - x1}`)
 
-    return y1 - y0
+    return y1 - y0 + 1
   }
   bip() {
     let imgData = this.ctx.getImageData(0, 0, this.width, this.height)
@@ -133,38 +140,66 @@ export class Image {
     }
     this.ctx.putImageData(imgData, 0, 0)
   }
-  draw() {
+  draw(_y0?: number, _y1?: number) {
+    // import opentype from {'opentype'}
+    // opentype.load
+
     this.ctx.clearRect(0, 0, this.width, this.height)
-    // console.log(this.color)
+    // console.log(this.text)
     this.ctx.fillStyle = this.color
+    let _font = `${this.size}px "${this.font}"`
+    this.ctx.font = _font
     this.ctx.fillText(this.text, 0, this.size)
     this.bip()
-    this.crop()
+    if (_y0 !== undefined && _y1 !== undefined) {
+      this.crop(_y0, _y1)
+    } else {
+      this.crop()
+    }
   }
   getImageSizes() {
     let width = this.width - this.cropX0 - this.cropX1
     let height = this.cropY1 - this.cropY0 + 1
-    
-    return {width:width, height:height, cropy0:this.cropY0, cropy1:this.cropY1}
 
+    return {
+      width: width,
+      height: height,
+      cropY0: this.cropY0,
+      cropY1: this.cropY1,
+    }
   }
+  // getImageSrc(cropY0:number, cropY1:number)
   getImageSrc() {
-    // let width = this.ctx.measureText(this.text).width - this.cropX0- (this.cropX1>>1)
     let width = this.width - this.cropX0 - this.cropX1
+    // width = width === 0 ? 1 : width
     let _canvas = document.createElement('canvas')
     _canvas.width = width
     _canvas.height = this.cropY1 - this.cropY0 + 1
+    _canvas.height = _canvas.height === 0 ? 1 : _canvas.height
     let _ctx = _canvas.getContext('2d')
-    // _ctx.putImageData(this.ctx.getImageData(0, 0, width, this.height), 0, 0)
-    _ctx.putImageData(
-      this.ctx.getImageData(this.cropX0, this.cropY0, width, this.cropY1),
-      0,
-      0
-    )
-    return  _canvas.toDataURL()
+    // console.log(
+    //   `x0: ${this.cropX0}, x1: ${this.cropX1}, y0: ${this.cropY0}, y1: ${
+    //     this.cropY1
+    //   }`
+    // )
+    if (width) {
+      _ctx.putImageData(
+        this.ctx.getImageData(this.cropX0, this.cropY0, width, this.cropY1),
+        0,
+        0
+      )
+    }
+    return _canvas.toDataURL()
+  }
+
+  getBase64(): string {
+    const imgUrlencoded = this.getImageSrc()
+    const imgBase64Encoded = imgUrlencoded.split(',')[1]
+    return imgBase64Encoded
   }
   getImage() {
     let img = <HTMLImageElement>document.createElement('img')
+    // img.src = this.canvas.toDataURL()
     img.src = this.getImageSrc()
     return img
   }
