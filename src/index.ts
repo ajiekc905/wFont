@@ -45,6 +45,20 @@ let makeZip = imgObject => {
   const textArr = params.text.split(' ')
   const startIndex = 10
 
+  const reducer = (accumulator, currentValue) => {
+    const currentImage: Image = new Image(
+      currentValue,
+      params.size,
+      params.font,
+      params.color,
+      params.threshold
+    )
+    currentImage.draw()
+    const returnX0 = Math.min(accumulator.x0, currentImage.cropX0)
+    const returnX1 = Math.min(accumulator.x1, currentImage.cropX1)
+    // console.log(`x1: ${returnX1}, a1: ${accumulator.x1}`)
+    return { x0: returnX0, x1: returnX1 }
+  }
   var zip = new JSZip()
   const imgSizes = imgObject.getImageSizes()
   const fontFolderName =
@@ -54,6 +68,12 @@ let makeZip = imgObject => {
     '_t' +
     params.threshold
   const folder = zip.folder(fontFolderName)
+  var monoWidth = true
+  let cropping
+  if (true) {
+    cropping = textArr.reduce(reducer, { x0: sizes.width, x1: sizes.width })
+    console.log(cropping)
+  }
   textArr.forEach((textElement, index) => {
     // console.log(textElement)
     const currentImage: Image = new Image(
@@ -64,7 +84,16 @@ let makeZip = imgObject => {
       params.threshold
     )
     // using vertical crop the same for all images
-    currentImage.draw(imgSizes.cropY0, imgSizes.cropY1)
+    if (monoWidth) {
+      currentImage.draw(
+        imgSizes.cropY0,
+        imgSizes.cropY1,
+        cropping.x0,
+        cropping.x1
+      )
+    } else {
+      currentImage.draw(imgSizes.cropY0, imgSizes.cropY1)
+    }
     const htmlImg = currentImage.getImage()
     preview.appendChild(htmlImg)
     const imgBase64Encoded = currentImage.getBase64()
@@ -72,11 +101,11 @@ let makeZip = imgObject => {
     folder.file(imageName, imgBase64Encoded, { base64: true })
   })
 
-  zip
-    .generateAsync({ type: 'base64', compression: 'STORE' })
-    .then(function(base64) {
-      location.href = 'data:application/zip;base64,' + base64
-    })
+  // zip
+  //   .generateAsync({ type: 'base64', compression: 'STORE' })
+  //   .then(function(base64) {
+  //     location.href = 'data:application/zip;base64,' + base64
+  //   })
 }
 let clean = () => {
   let preview = document.querySelector('.preview')
