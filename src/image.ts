@@ -1,3 +1,5 @@
+import { isUndefined, isDate } from 'util'
+
 export class Image {
   // layers:any[]
   canvas: HTMLCanvasElement
@@ -92,7 +94,23 @@ export class Image {
     this.draw()
   }
 
-  crop(_y0?: number, _y1?: number): number {
+  crop(_y0?: number, _y1?: number, _x0?: number, _x1?: number): number {
+    if (
+      _y0 !== undefined &&
+      _y1 !== undefined &&
+      _x0 !== undefined &&
+      _x1 !== undefined
+    ) {
+      this.cropY0 = _y0
+      this.cropY1 = _y1
+      this.cropX0 = _x0
+      this.cropX1 = _x1
+      // console.log(
+      //   `___ ${this.cropX0}, ${this.cropX1}, ${this.cropY0}, ${this.cropY1}`
+      // )
+      return this.cropY1 - this.cropY0 + 1
+    }
+
     function checkImgLine(byte) {
       return byte === 0
     }
@@ -119,7 +137,7 @@ export class Image {
       x1 = x1 === undefined ? xPosEnd : x1
       x0 = xPos < x0 ? xPos : x0
       x1 = xPosEnd > x1 ? xPosEnd : x1
-
+      //
       y0 = y0 === undefined && !isEmpty ? y : y0
       y1 = y1 === undefined && !isEmpty ? y : y1
       y1 = y > y1 && !isEmpty ? y : y1
@@ -128,8 +146,8 @@ export class Image {
     this.cropY1 = _y1 === undefined ? y1 : _y1
     this.cropX0 = x0
     this.cropX1 = this.width - x1 - 1
-    // console.log(`start: ${y0}, end:${y1}`)
-    // console.log(`x0: ${x0}   x1: ${this.width - x1}`)
+    // this.cropX0 = _x0 === undefined ? this.cropX0 : _x0
+    // this.cropX1 = _x1 === undefined ? this.cropX1 : _x1
 
     return y1 - y0 + 1
   }
@@ -140,7 +158,7 @@ export class Image {
     }
     this.ctx.putImageData(imgData, 0, 0)
   }
-  draw(_y0?: number, _y1?: number) {
+  draw(_y0?: number, _y1?: number, _x0?: number, _x1?: number) {
     // import opentype from {'opentype'}
     // opentype.load
 
@@ -152,7 +170,13 @@ export class Image {
     this.ctx.fillText(this.text, 0, this.size)
     this.bip()
     if (_y0 !== undefined && _y1 !== undefined) {
-      this.crop(_y0, _y1)
+      if (_x0 !== undefined && _x1 !== undefined) {
+        console.log('width cropped for all the same')
+        this.crop(_y0, _y1, _x0, _x1)
+      } else {
+        console.log('width cropped for all differently')
+        this.crop(_y0, _y1)
+      }
     } else {
       this.crop()
     }
