@@ -18,7 +18,8 @@ input#myfont {
   margin: 8px 0;
   box-sizing: border-box;
 }
-
+select#idTemplate,
+input[type='file' ],
 input[type='button'],
 input[type='submit'],
 input[type='reset'],
@@ -30,8 +31,28 @@ button {
   text-decoration: none;
   margin: 4px 2px;
   cursor: pointer;
+  min-width: 12em;
+}
+select#idTemplate {
+  padding: 1em;
 }
 
+div#file-div-container {
+  height: 3em;
+}
+input[type='file'] {
+  clip: rect(0, 876px, 50px, 108px);
+  position: absolute;
+  overflow: hidden;
+  margin-left: -108px;
+  width: 876px;
+}
+/* input[type='file']:before {
+  content: '<div style="position:relative">';
+}
+input[type='file']:after {
+  content: '</div>';
+} */
 input[type='range'] {
   width: 90%;
 }
