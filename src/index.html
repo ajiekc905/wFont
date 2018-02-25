@@ -1,87 +1,116 @@
 <html>
-  <head>
-  </head>
+
+<head>
+</head>
+
 <body>
   <div class="wrapper">
     <canvas id="display"></canvas>
-    <form action="">
+    <form id="myForm" action="">
 
-      <label>Text <span id="font-height"></span>
-        <input list="myText" name="text" id="text" value="0 1 2 3 4 5 6 7 8 9 0 -"/>
+      <label>Text
+        <span id="font-height"></span>
+        <input list="myText" name="text" id="text" value="0 1 2 3 4 5 6 7 8 9 ° -" />
       </label>
       <datalist id="myText">
-      <option value="0 1 2 3 4 5 6 7 8 9 0 -">
-      <option value="MON TUE WEN THU FRI SAT SUN">
-      <option value="ПН ВТ СР ЧТ ПТ СБ ВС">
-      <option value="January February March April May June July August September October November December">
+        <option value="0 1 2 3 4 5 6 7 8 9 ° -">time</option>
+        <option value="MON TUE WEN THU FRI SAT SUN"></option>
+        <option value="ПН ВТ СР ЧТ ПТ СБ ВС"></option>
+        <option value="October| November|January December|February March April May June July August September"></option>
+        <option value="Октябрь| Ноябрь|Январь Декабрь|Февраль Март Апрель Май Июнь Июль Август Сентябрь"></option>
       </datalist>
 
-      <input type="color" id="colorId" pattern="#[A-Za-z-0-9]{6}" value="#ff0000" required><br>
-      <input type="range"  id="sizeId" min="6" max="400" step="1" value="160" 
-      oninput="sizeShow.value = sizeId.value" >
-      <output id="sizeShow">160</output>
+      <input type="color" id="colorId" pattern="#[A-Za-z-0-9]{6}" value="#ff0000" required>
       <br>
+      <input type="range" id="sizeId" min="6" max="400" step="1" value="15" oninput="sizeShow.value = sizeId.value">
+      <output id="sizeShow">15</output>
+      <button id="minusSizeBtn" type="button" >-</button>
+      <button id="plusSizeBtn" type="button" >+</button>
+
+      <br>
+      <select name="template" id="idTemplate">
+        <option value="Clock">current time</option>
+        <option value="DateOneLine">date in one line</option>
+        <option value="DateMonth">month</option>
+        <option value="DateWeek">weekday</option>
+        <option value="DateDay">date</option>
+
+      </select>
+      <br />
 
       <label>Font
-        <input list="font" name="font" id="myfont" value="Merkur"/>
+        <div id="file-div-container">
+          <input id="file" type="file">
+        </div>
+        <input list="font" name="font" id="myfont" value="ZnikomitNo24" />
       </label>
       <datalist id="font">
-      <option value="American Typewriter">
-      <option value="Anka/Coder Narrow">
-      <option value="Arial">
-      <option value="Arkadia">
-      <option value="Bsica-Unicode">
-
-          
-      <option value="Chalk Marks">
-      <option value="Condensed">
-      <option value="Copperplate">
-      <option value="Coraline's Cat">
-      <option value="CQ Mono">
-      <option value="creep">
-      <option value="Didot">
-      <option value="Envy Code R VS">
-      <option value="Fifteen">
-      <option value="Futura">
-      <option value="ZnikomitNo24">
-      <option value="GohuFont">
-      <option value="Haskling">
-      <option value="Heartbeat Synchronicity">
-      <option value="Herculanum">
-      <option value="Highliner">
-      <option value="Impact">
-      <option value="leco 1976">
-      <option value="Ode to Idle Gaming">
-      <option value="LIGHT OF THE MERMAID">
-      <option value="Luculent">
-      <option value="Marker Felt">
-      <option value="Monoid">
-      <option value="Monoton">
-      <option value="Phosphate">
-      <option value="Quinze">
-      <option value="RoselleCapsSSK">
-      <option value="Russian Land">
-      <option value="Skia">
-      <option value="Skyhook Mono">
-      <option value="Tasty Birds">
-      <option value="The Flowers St">
-      <option value="Qui Finn">
-      <option value="Underwear Protest">
-      <option value="Yanone Kaffeesatz">
+        <option value="American Typewriter"></option>
+        <option value="Anka/Coder Narrow"></option>
+        <option value="Arial"></option>
+        <option value="Arkadia"></option>
+        <option value="Bsica-Unicode"></option>
+      
+      
+        <option value="Chalk Marks"></option>
+        <option value="Condensed"></option>
+        <option value="Copperplate"></option>
+        <option value="Coraline's Cat"></option>
+        <option value="CQ Mono"></option>
+        <option value="creep"></option>
+        <option value="Didot"></option>
+        <option value="Envy Code R VS"></option>
+        <option value="Fifteen"></option>
+        <option value="Futura"></option>
+        <option value="ZnikomitNo24"></option>
+        <option value="GohuFont"></option>
+        <option value="Haskling"></option>
+        <option value="Heartbeat Synchronicity"></option>
+        <option value="Herculanum"></option>
+        <option value="Highliner"></option>
+        <option value="Impact"></option>
+        <option value="leco 1976"></option>
+        <option value="Ode to Idle Gaming"></option>
+        <option value="LIGHT OF THE MERMAID"></option>
+        <option value="Luculent"></option>
+        <option value="Marker Felt"></option>
+        <option value="Monoid"></option>
+        <option value="Monoton"></option>
+        <option value="Phosphate"></option>
+        <option value="Quinze"></option>
+        <option value="RoselleCapsSSK"></option>
+        <option value="Russian Land"></option>
+        <option value="Skia"></option>
+        <option value="Skyhook Mono"></option>
+        <option value="Tasty Birds"></option>
+        <option value="The Flowers St"></option>
+        <option value="Qui Finn"></option>
+        <option value="Underwear Protest"></option>
+        <option value="Yanone Kaffeesatz"></option>
       </datalist>
 
 
 
-      <input type="range"  id="threshold" min="1" max="254" step="1" value="110" 
-      oninput="tsShow.value = threshold.value" >
+      <input type="range" id="threshold" min="1" max="254" step="1" value="20" oninput="tsShow.value = threshold.value">
       <output id="tsShow">110</output>
       <br/>
 
 
-      <button id="plusBtn" type="button" >+</button>
-      <button id="cleanBtn" type="button" >Clean</button>
-      <button id="saveBtn" type="button" >Save</button>
-      <!-- <button id="sizesBtn" type="button" >Size</button> -->
+      <fieldset>
+        <input type="checkbox" id="justShowIt" checked>Show it only
+        <input type="checkbox" id="tickTheSameWidth" checked>Same width
+      </fieldset>
+      <br/>
+      <fieldset>
+        <input type="radio" name="alignBtn" value="Original" checked>Orig Align
+        <input type="radio" name="alignBtn" value="Left" >Left
+        <input type="radio" name="alignBtn" value="Center" >Center
+        <input type="radio" name="alignBtn" value="Right" >Right
+      </fieldset>
+      <br/>
+      <button id="plusBtn" type="button">+</button>
+      <button id="cleanBtn" type="button">Clean</button>
+      <button id="saveBtn" type="button">Save</button>
 
     </form>
     <div class="preview">
@@ -91,4 +120,5 @@
   </div>
   <script src="./index.ts"></script>
 </body>
+
 </html>
