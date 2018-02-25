@@ -8,6 +8,7 @@ canvas#display {
   height: 176px;
   border-style: solid;
   border-width: thin;
+  background-color: gray;
 }
 input[type='text'],
 input[list='myText'],
@@ -54,10 +55,14 @@ input[type='file']:after {
   content: '</div>';
 } */
 input[type='range'] {
-  width: 90%;
+  width: 50%;
 }
 input#colorId {
   width: 100%;
   border: none;
   height: 48px;
+}
+
+.preview {
+  background-color: gray;
 }
