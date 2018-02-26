@@ -20,7 +20,14 @@ export let makeZip = (imgObject, align) => {
     currentImage.draw()
     const returnX0 = Math.min(accumulator.x0, currentImage.cropX0)
     const returnX1 = Math.min(accumulator.x1, currentImage.cropX1)
-    return { x0: returnX0, x1: returnX1 }
+    const returnWidth = Math.max(
+      accumulator.width,
+      currentImage.width -
+        currentImage.cropCurrentX0 -
+        currentImage.cropCurrentX1 +
+        1
+    )
+    return { x0: returnX0, x1: returnX1, width: returnWidth }
   }
   var zip = new JSZip()
   const myForm = document.getElementById('myForm')
@@ -39,8 +46,12 @@ export let makeZip = (imgObject, align) => {
   var monoWidth = tickTheSameWidth.checked
   let cropping
   if (monoWidth) {
-    cropping = textArr.reduce(reducer, { x0: sizes.width, x1: sizes.width })
-    cropping.width = cropping.x1 - cropping.x0 + 1
+    cropping = textArr.reduce(reducer, {
+      x0: sizes.width,
+      x1: sizes.width,
+      width: 0,
+    })
+    // cropping.width = cropping.x1 - cropping.x0 + 1
     console.log(cropping)
   }
   textArr.forEach((textElement, index) => {
@@ -55,6 +66,7 @@ export let makeZip = (imgObject, align) => {
     )
     // using vertical crop the same for all images
     if (monoWidth) {
+      currentImage.setCanvasWidth(cropping.x0 + cropping.x1 + cropping.width)
       currentImage.draw(
         imgSizes.cropY0,
         imgSizes.cropY1,

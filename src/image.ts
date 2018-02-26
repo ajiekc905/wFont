@@ -59,9 +59,14 @@ export class Image {
     this.text = text
   }
 
+  setCanvasWidth(width: number) {
+    this.width = width
+    this.canvas.width = width
+    this.ctx = this.canvas.getContext('2d')
+  }
   setCanvasSize(size: number) {
     this.size = size
-    this.width = Math.floor(this.text.length * size * 0.9)
+    this.width = Math.floor(this.text.length * size )
     this.height = Math.floor(size * 1.2)
     this.canvas.width = this.width
     this.canvas.height = this.height
@@ -162,6 +167,9 @@ export class Image {
     const realWidth = this.width - this.cropCurrentX0 - this.cropCurrentX1 + 1
     const definedWidth = this.width - _x0 - _x1 + 1
     const freeSpace = definedWidth - realWidth + 1
+    console.log(
+      `realwidth:${realWidth}, defined:${definedWidth}, space:${freeSpace}`
+    )
 
     if (_x1) {
       switch (this.align) {
@@ -178,9 +186,11 @@ export class Image {
           this.cropX1 = this.cropCurrentX1 - halfSpace
           break
         case 'Left':
-          // console.log('left align')
+          console.log('left align')
           this.cropX0 = this.cropCurrentX0
           this.cropX1 = this.cropCurrentX1 - freeSpace
+          // this.cropX0 = this.cropCurrentX0
+          // this.cropX1 = this.cropCurrentX1
           break
         default:
           // console.log('original align')
